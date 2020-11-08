@@ -1,7 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect } from 'react';
+
+
+const headers = {
+  Accept: "application/json",
+  "Content-Type": "application/json",
+};
 
 function App() {
+  useEffect(() => {
+    const fetchProducts = async () => {
+      // GET products
+      const response = await fetch('http://localhost:3000/products', {
+        method: 'GET',
+        headers: headers,
+
+      });
+      const data = await response.json();
+      console.log(data);
+    }
+    fetchProducts();
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
