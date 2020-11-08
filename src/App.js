@@ -10,6 +10,9 @@ const headers = {
 
 function App() {
   const [products, setProducts] = useState([]);
+
+  const [cartId, setCartId] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
   useEffect(() => {
     const fetchProducts = async () => {
       // GET products
@@ -28,13 +31,24 @@ function App() {
     const body = {
       productId: newProductId,
     }
+    if(!cartId) {
     const response = await fetch('http://localhost:3000/carts', {
       method: 'POST',
       headers,
       body: JSON.stringify(body),
     });
     const data = await response.json();
-    console.log(data);
+    setCartId(data.id);
+    setCartItems(data.products);
+  } else {
+    const response = await fetch(`http://localhost:3000/carts/${cartId}`, {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify(body),
+    })
+    const data = await response.json();
+    setCartItems(data.products);
+  }
   }
   return (
     <div className="App">
@@ -53,6 +67,18 @@ function App() {
                 </div>
               )
             })}
+          </div>
+        </section>
+        <section>
+          <h2>Your Cart</h2>
+          <div className="products__cart">
+            {cartItems.map((item) => (
+              <div>
+                <h4>{item.title}</h4>
+                <p>${item.price}.00</p>
+                <p>{item.count}</p>
+              </div>
+            ))}
           </div>
         </section>
       </main>
