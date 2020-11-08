@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
     // productId
     // need to have body-parser installed for this to work 
     const { productId } = req.body;
-
+    // THIS WILL BE DATABASE LOGIC eventually:
     const productsToAdd = products.filter((product) =>
     productId === product.id
     ).map((item) => {
@@ -23,6 +23,7 @@ router.post('/', (req, res) => {
         products: productsToAdd,
     };
     carts.push(cart);
+    res.json(cart);
 })
 
 // add an item to an existing cart 

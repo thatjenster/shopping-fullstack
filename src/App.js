@@ -23,6 +23,19 @@ function App() {
     }
     fetchProducts();
   }, []);
+
+  const addToCart = async (newProductId) => {
+    const body = {
+      productId: newProductId,
+    }
+    const response = await fetch('http://localhost:3000/carts', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body),
+    });
+    const data = await response.json();
+    console.log(data);
+  }
   return (
     <div className="App">
       <header className="App-header">
@@ -36,6 +49,7 @@ function App() {
                 <div key={product.id} className="product-single">
                   <h3>{product.title}</h3>
                   <p>{product.price}.00</p>
+                  <button onClick={() => { addToCart(product.id) }}>Add to cart</button>
                 </div>
               )
             })}
