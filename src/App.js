@@ -1,6 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import Cart from './component/Cart';
+import Products from './component/Products';
 
 
 const headers = {
@@ -51,38 +53,20 @@ function App() {
   }
   }
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Buy our Products!</h1>
-      </header>
-      <main>
-        <section>
-          <div className="products">
-            {products.map((product) => {
-              return(
-                <div key={product.id} className="product-single">
-                  <h3>{product.title}</h3>
-                  <p>{product.price}.00</p>
-                  <button onClick={() => { addToCart(product.id) }}>Add to cart</button>
-                </div>
-              )
-            })}
-          </div>
-        </section>
-        <section>
-          <h2>Your Cart</h2>
-          <div className="products__cart">
-            {cartItems.map((item) => (
-              <div>
-                <h4>{item.title}</h4>
-                <p>${item.price}.00</p>
-                <p>{item.count}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      </main>
-    </div>
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <h1>Buy our Products!</h1>
+        </header>
+        <main>
+          <section>
+              <Link to="/cart">View your cart!</Link>
+              <Route exact path="/" render={() => <Products addToCart={addToCart} products={products} />} />
+              <Route path="/cart" render={() => <Cart cartItems={cartItems} />} />
+          </section>
+        </main>
+      </div>
+    </Router>
   );
 }
 
