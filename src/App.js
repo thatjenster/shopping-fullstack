@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 
 const headers = {
@@ -9,6 +9,7 @@ const headers = {
 };
 
 function App() {
+  const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchProducts = async () => {
       // GET products
@@ -18,26 +19,29 @@ function App() {
 
       });
       const data = await response.json();
-      console.log(data);
+      setProducts(data);
     }
     fetchProducts();
   }, []);
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Buy our Products!</h1>
       </header>
+      <main>
+        <section>
+          <div className="products">
+            {products.map((product) => {
+              return(
+                <div>
+                  <h3>{product.title}</h3>
+                  <p>{product.price}.00</p>
+                </div>
+              )
+            })}
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
